@@ -1,0 +1,31 @@
+---
+fqdn: ${NODE}.${DNS_DOMAIN}
+hostname: ${NODE}
+
+disable_root: 0
+
+users:
+  - name: root
+    ssh-authorized-keys:
+      - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDOgj7EZl9cQZM718ybvamhU1QAJ/8rX/cu4QAPOAOhgdSeebIzwyTI5S63EcCaUJDxaVGEPhPelKxAY2Nklp377Ritae53aaqmARsYqxWaW7YJMUtrC9KMsjYzcM/iZqJ71YJoosHlU1Cr2Ivu1u5Y3zYatROBawH6vRzsv9QQOpe1+Ds9fY5lLERTI3+Q32LPKZXArbCgFb2NNc/xooyU1Zru6SF05KC/964RSF9Q2/j7VxySfcQHbHv+/VXgFcfA8AxVP6420cLvAiMN22GPDBK0JxvhEEKjiUoDCVBZ59FBYNBDGz3OGJUbxhEGgp3tikEL5mhoLNGSp2fL7O90mocU495F7v2Mr4+bNG1+PNC6KBmcDhc94s+6tL/9u/cDdOZKS/5v1W9MRclyS2eDXyBBlU76gfzW7rDqRGQKxIqb6cWTlVyFLsB6BX4K/tot0nT1O9yBLzBMEOqn71kCMCmNVpRzrTtruZOsmjeliODEdpmdZ5tapBbIaI0L29s=
+
+packages:
+  - python2.7
+
+write_files:
+  - content: |
+      network:
+          version: 2
+          renderer: networkd
+          ethernets:
+             enp0s2:
+              nameservers:
+                addresses: [192.168.1.10]
+                search: [iaas.caphitech.com]
+    path: /etc/netplan/51-custom.yaml
+    owner: root:root
+    permissions: '0744'
+
+runcmd:
+  - [ /usr/sbin/netplan , apply ]
+  
