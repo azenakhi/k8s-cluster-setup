@@ -46,6 +46,7 @@ init:
 	$(eval MASTER_NAME := $(shell echo "master-1"))
 	@ssh root@$(MASTER_NAME) "/root/scripts/init.sh"
 	@ssh root@$(MASTER_NAME) "/root/scripts/network.sh"
+	@scp root@$(MASTER_NAME):/root/.kube/config ~/.kube/
 
 join-%:
 	$(eval MASTER_NAME := $(shell echo "master-1"))
